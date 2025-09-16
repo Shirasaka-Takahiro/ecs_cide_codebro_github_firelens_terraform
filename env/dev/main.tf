@@ -110,6 +110,13 @@ module "s3_logging_bucket" {
   bucket_role    = "logging"
 }
 
+module "firelens_conf_bucket" {
+  source = "../../module/s3"
+
+  general_config = var.general_config
+  bucket_role    = "firelens-conf"
+}
+
 ##DNS
 module "domain" {
   source = "../../module/route53"
@@ -133,15 +140,18 @@ module "acm_alb" {
 module "ecs" {
   source = "../../module/ecs"
 
-  general_config     = var.general_config
-  task_role          = var.task_role
-  blue_tg_arn        = module.alb.blue_tg_arn
-  ecr_repository_url = module.ecr.ecr_repository_url
-  fargate_cpu        = var.fargate_cpu
-  fargate_memory     = var.fargate_memory
-  dmz_subnet_ids     = module.network.dmz_subnet_ids
-  internal_sg_id     = module.internal_sg.security_group_id
-  iam_ecs_arn        = module.iam_ecs.iam_role_arn
+  general_config              = var.general_config
+  task_role                   = var.task_role
+  blue_tg_arn                 = module.alb.blue_tg_arn
+  ecr_repository_url          = module.ecr.ecr_repository_url
+  ecr_repository_firelens_url = module.ecr_firelens.ecr_repository_url
+  logging_bucket_arn          = module.s3_logging_bucket.bucket_arn
+  logging_bucket_name         = module.s3_logging_bucket.bucket_id
+  fargate_cpu                 = var.fargate_cpu
+  fargate_memory              = var.fargate_memory
+  dmz_subnet_ids              = module.network.dmz_subnet_ids
+  internal_sg_id              = module.internal_sg.security_group_id
+  iam_ecs_arn                 = module.iam_ecs.iam_role_arn
 }
 
 ##ECR
@@ -149,20 +159,31 @@ module "ecr" {
   source = "../../module/ecr"
 
   general_config      = var.general_config
-  ecr_repository_role = var.ecr_repository_role
+  ecr_repository_role = "web"
   region              = var.region
-  docker_image_name   = var.docker_image_name
+}
+
+module "ecr_firelens" {
+  source = "../../module/ecr"
+
+  general_config      = var.general_config
+  ecr_repository_role = "firelens"
+  region              = var.region
 }
 
 ##CloudWatch
 module "cloudwatch" {
   source = "../../module/cloudwatch"
 
-  general_config       = var.general_config
-  task_role            = var.task_role
-  filter_pattern       = var.filter_pattern
-  destination_arn      = module.kinesis_firehose.kinesis_firehose_arn
-  kinesis_firehose_arn = module.kinesis_firehose.kinesis_firehose_arn
+  general_config = var.general_config
+  task_role      = var.task_role
+}
+
+module "cloudwatch_firelens" {
+  source = "../../module/cloudwatch"
+
+  general_config = var.general_config
+  task_role      = "firelens"
 }
 
 ##CodeStarConnections
@@ -216,18 +237,6 @@ module "codepipeline" {
   codedeploy_deployment_group_name   = module.codedeploy.codedeploy_deployment_group_name
   task_definition_template_path      = file("../../module/codebuild/taskdef.json")
   app_spec_template_path             = file("../../module/codebuild/appspec.yml")
-}
-
-##Kinesis Firehose
-module "kinesis_firehose" {
-  source = "../../module/kinesis"
-
-  general_config     = var.general_config
-  destination        = var.destination
-  bucket_arn         = module.s3_logging_bucket.bucket_arn
-  buffering_size     = var.buffering_size
-  buffering_interval = var.buffering_interval
-  prefix             = var.prefix
 }
 
 ##IAM

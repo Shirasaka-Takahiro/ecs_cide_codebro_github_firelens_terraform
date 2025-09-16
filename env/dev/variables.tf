@@ -136,23 +136,16 @@ variable "sans" {
   type        = string
 }
 
-##ECR Repository Name
-variable "ecr_repository_role" {
-  description = "ECR repository role"
-  type        = string
-  default     = "web"
-}
-
-##CloudWatch Logs
-variable "filter_pattern" {
-  description = "Filter pattern for cloudwatch logs"
+##Docker Image Name
+variable "docker_image_name" {
+  description = "Docker Image name"
   type        = string
   default     = ""
 }
 
-##Docker Image Name
-variable "docker_image_name" {
-  description = "Docker Image name"
+##Docker Image Name for Firelens
+variable "docker_image_name_firelens" {
+  description = "Docker Image name for Firelens"
   type        = string
   default     = ""
 }
@@ -197,7 +190,6 @@ variable "branch_name" {
   type        = string
   default     = "main"
 }
-
 
 ##IAM ECS
 variable "role_name_1" {
@@ -249,29 +241,4 @@ variable "policy_name_4" {
   description = "Codepipeline IAM policy name"
   type        = string
   default     = "pipeline-policy"
-}
-
-##Kinesis
-variable "destination" {
-  description = "Destination for Kinesis"
-  type        = string
-  default     = "extended_s3"
-}
-
-variable "buffering_size" {
-  description = "Buffering Size for Kinesis"
-  type        = number
-  default     = 5
-}
-
-variable "buffering_interval" {
-  description = "Buffering Interval for Kinesis"
-  type        = number
-  default     = 300
-}
-
-variable "prefix" {
-  description = "Prefix for Kinesis"
-  type        = string
-  default     = "KINESIS_LOGGING"
 }

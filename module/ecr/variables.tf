@@ -3,4 +3,3 @@ variable "general_config" {
 }
 variable "ecr_repository_role" {}
 variable "region" {}
-variable "docker_image_name" {}

@@ -15,7 +15,6 @@ output "private_subnet_ids" {
   value = module.network.private_subnet_ids
 }
 
-
 ##Security Group ids
 output "internal_sg_id" {
   value = module.internal_sg.security_group_id

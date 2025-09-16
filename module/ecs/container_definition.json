@@ -10,12 +10,53 @@
             }
         ],
         "logConfiguration": {
+            "logDriver": "awsfirelens",
+            "options": {},
+            "secretOptions": []
+        }
+    },
+    {
+        "name": "${project}-${env}-firelens-container",
+        "image": "${ecr_repository_firelens_url}",
+        "essential": true,
+        "environment": [
+            {
+                "name": "aws_fluent_bit_init_s3_1",
+                "value": "${logging_bucket_arn}/extra.conf"
+            },
+            {
+                "name": "project",
+                "value": "${project}"
+            },
+            {
+                "name": "env",
+                "value": "${env}"
+            },
+            {
+                "name": "task_role",
+                "value": "${task_role}"
+            },
+            {
+                "name": "aws_region",
+                "value": "${aws_region}"
+            },
+            {
+                "name": "logging_bucket_name",
+                "value": "${logging_bucket_name}"
+            }
+        ],
+        "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
-              "awslogs-region": "ap-northeast-1",
-              "awslogs-stream-prefix": "${task_role}",
-              "awslogs-group": "/ecs/${project}/${env}/${task_role}"
-            }
-          }
+                "awslogs-group": "/ecs/${project}/${env}/firelens",
+                "awslogs-region": "ap-northeast-1",
+                "awslogs-stream-prefix": "firelens"
+            },
+            "secretOptions": []
+        },
+        "firelensConfiguration": {
+            "type": "fluentbit"
+        }
+
     }
 ]

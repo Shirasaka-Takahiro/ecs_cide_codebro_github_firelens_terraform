@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 ##Cluster
 resource "aws_ecs_cluster" "cluster" {
   name = "${var.general_config["project"]}-${var.general_config["env"]}-cluster"
@@ -13,10 +15,14 @@ resource "aws_ecs_task_definition" "task" {
   family = "${var.general_config["project"]}-${var.general_config["env"]}-${var.task_role}-task"
   container_definitions = templatefile("${path.module}/container_definition.json",
     {
-      project            = var.general_config["project"],
-      env                = var.general_config["env"],
-      task_role          = var.task_role,
-      ecr_repository_url = var.ecr_repository_url
+      project                     = var.general_config["project"],
+      env                         = var.general_config["env"],
+      task_role                   = var.task_role,
+      ecr_repository_url          = var.ecr_repository_url,
+      ecr_repository_firelens_url = var.ecr_repository_firelens_url,
+      aws_region                  = data.aws_region.current.id,
+      logging_bucket_arn          = var.logging_bucket_arn,
+      logging_bucket_name         = var.logging_bucket_name
     }
   )
   cpu                = var.fargate_cpu

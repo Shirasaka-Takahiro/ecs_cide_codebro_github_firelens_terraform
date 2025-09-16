@@ -24,7 +24,7 @@ CodeDeploy
 <br />
 CodePipeline
 <br />
-CloudWatch
+CloudWatch (ECS log and Firelens log)
 <br />
 S3(Buckets for logging and pipeline)
 <br />

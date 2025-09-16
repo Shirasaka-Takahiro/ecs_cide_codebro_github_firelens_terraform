@@ -8,6 +8,7 @@ resource "aws_ecr_repository" "default" {
   }
 }
 
+/*
 ##AWS Account ID
 data "aws_caller_identity" "self" {}
 
@@ -24,4 +25,13 @@ resource "null_resource" "default" {
   provisioner "local-exec" {
     command = "docker push ${aws_ecr_repository.default.repository_url}:latest"
   }
+
+  provisioner "local-exec" {
+    command = "docker tag ${var.docker_image_name_firelens}:latest ${aws_ecr_repository.firelens.repository_url}:latest"
+  }
+
+  provisioner "local-exec" {
+    command = "docker push ${aws_ecr_repository.firelens.repository_url}:latest"
+  }
 }
+*/
