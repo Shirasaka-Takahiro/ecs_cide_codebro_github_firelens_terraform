@@ -2,7 +2,7 @@
     "containerDefinitions": [
         {
             "name": "<project>-<env>-<task_role>-container",
-            "image": "<IMAGE1_NAME>",
+            "image": "<ECR_REPOSITORY_URL>",
             "cpu": 0,
             "portMappings": [
                 {
@@ -12,15 +12,54 @@
                 }
             ],
             "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                  "awslogs-region": "ap-northeast-1",
-                  "awslogs-stream-prefix": "<task_role>",
-                  "awslogs-group": "/ecs/<project>/<env>/<task_role>"
-                }
+                "logDriver": "awsfirelens",
+                "options": {}
             },
             "essential": true,
             "environment": [],
+            "mountPoints": [],
+            "volumesFrom": []
+        },
+        {
+            "name": "<project>-<env>-firelens-container",
+            "image": "<ECR_REPOSITORY_FIRELENS_URL>",
+            "cpu": 0,
+            "portMappings": [],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "aws_fluent_bit_init_s3_1",
+                    "value": "<logging_bucket_arn>/extra.conf"
+                },
+                {
+                    "name": "project",
+                    "value": "<project>"
+                },
+                {
+                    "name": "env",
+                    "value": "<env>"
+                },
+                {
+                    "name": "task_role",
+                    "value": "<task_role>"
+                },
+                {
+                    "name": "REGION",
+                    "value": "<REGION>"
+                },
+                {
+                    "name": "logging_bucket_name",
+                    "value": "<logging_bucket_name>"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awsfirelens",
+                "options": {
+                    "awslogs-group": "/ecs/<project>/<env>/firelens",
+                    "awslogs-region": "ap-northeast-1",
+                    "awslogs-stream-prefix": "firelens"
+                }
+            },
             "mountPoints": [],
             "volumesFrom": []
         }

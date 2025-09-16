@@ -16,21 +16,30 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - echo Building the Docker image...
-      - docker build ./docker -t $ECR_REPOSITORY_URL:latest
+      - echo Building Web Docker image...
+      - docker build ./web -t $ECR_REPOSITORY_URL:latest
       - docker tag $ECR_REPOSITORY_URL:latest $ECR_REPOSITORY_URL:$IMAGE_TAG
+      - echo Building Firelens Docker image...
+      - docker build ./Firelens -t $ECR_REPOSITORY_FIRELENS_URL:latest
+      - docker tag $ECR_REPOSITORY_FIRELENS_URL:latest $ECR_REPOSITORY_FIRELENS_URL:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $ECR_REPOSITORY_URL:latest
       - docker push $ECR_REPOSITORY_URL:$IMAGE_TAG
+      - docker push $ECR_REPOSITORY_FIRELENS_URL:latest
+      - docker push $ECR_REPOSITORY_FIRELENS_URL:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '{"ImageURI":"%s"}' $ECR_REPOSITORY_URL:$IMAGE_TAG > imageDetail.json
+      - printf '{"ImageURI":"%s"}' $ECR_REPOSITORY_FIRELENS_URL:$IMAGE_TAG > imageDetail.json
       - echo Rewriting task definitions file...
       - sed -i -e "s#<project>#$project#g" module/codebuild/taskdef.json
       - sed -i -e "s#<env>#$env#g" module/codebuild/taskdef.json
       - sed -i -e "s#<task_role>#$task_role#g" module/codebuild/taskdef.json
+      - sed -i -e "s#<RESION>#$RESION#g" module/codebuild/taskdef.json
+      - sed -i -e "s#<logging_bucket_arn>#$logging_bucket_arn#g" module/codebuild/taskdef.json
+      - sed -i -e "s#<logging_bucket_name>#$logging_bucket_name#g" module/codebuild/taskdef.json
       - sed -i -e "s#<execution_role_arn>#$execution_role_arn#g" module/codebuild/taskdef.json
       - cp module/codebuild/taskdef.json ./
       - echo Finished Rewriting task definitions file

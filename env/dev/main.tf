@@ -201,9 +201,12 @@ module "codebuild" {
   general_config     = var.general_config
   region             = var.region
   ecr_repository_url = module.ecr.ecr_repository_url
+  ecr_repository_firelens_url = module.ecr_firelens.ecr_repository_url
   iam_codebuild_arn  = module.iam_codebuild.iam_role_arn
   task_role          = var.task_role
   execution_role_arn = module.iam_ecs.iam_role_arn
+  logging_bucket_name         = module.s3_logging_bucket.bucket_id
+  logging_bucket_arn          = module.s3_logging_bucket.bucket_arn
   vpc_id             = module.network.vpc_id
   dmz_subnet_ids     = module.network.dmz_subnet_ids
   internal_sg_id     = module.internal_sg.security_group_id

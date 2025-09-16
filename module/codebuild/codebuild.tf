@@ -50,8 +50,23 @@ resource "aws_codebuild_project" "project" {
     }
 
     environment_variable {
+      name  = "ECR_REPOSITORY_FIRELENS_URL"
+      value = var.ecr_repository_firelens_url
+    }
+
+    environment_variable {
       name  = "IMAGE_TAG"
       value = "latest"
+    }
+
+    environment_variable {
+      name  = "logging_bucket_arn"
+      value = var.logging_bucket_arn
+    }
+
+    environment_variable {
+      name  = "logging_bucket_name"
+      value = var.logging_bucket_name
     }
   }
 
