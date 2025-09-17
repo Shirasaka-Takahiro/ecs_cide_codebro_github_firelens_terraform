@@ -29,7 +29,7 @@
             "environment": [
                 {
                     "name": "aws_fluent_bit_init_s3_1",
-                    "value": "<logging_bucket_arn>/extra.conf"
+                    "value": "<firelens_conf_bucket_arn>/extra.conf"
                 },
                 {
                     "name": "project",
@@ -44,8 +44,8 @@
                     "value": "<task_role>"
                 },
                 {
-                    "name": "REGION",
-                    "value": "<REGION>"
+                    "name": "aws_region",
+                    "value": "<aws_region>"
                 },
                 {
                     "name": "logging_bucket_name",

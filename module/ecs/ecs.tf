@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "task" {
       ecr_repository_url          = var.ecr_repository_url,
       ecr_repository_firelens_url = var.ecr_repository_firelens_url,
       aws_region                  = data.aws_region.current.id,
-      logging_bucket_arn          = var.logging_bucket_arn,
+      firelens_conf_bucket_arn    = var.firelens_conf_bucket_arn,
       logging_bucket_name         = var.logging_bucket_name
     }
   )

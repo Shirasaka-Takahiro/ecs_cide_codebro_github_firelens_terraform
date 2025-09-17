@@ -40,8 +40,8 @@ phases:
       - sed -i -e "s#<task_role>#$task_role#g" module/codebuild/taskdef.json
       - sed -i -e "s#<ECR_REPOSITORY_URL>#$ECR_REPOSITORY_URL#g" module/codebuild/taskdef.json
       - sed -i -e "s#<ECR_REPOSITORY_FIRELENS_URL>#$ECR_REPOSITORY_FIRELENS_URL#g" module/codebuild/taskdef.json
-      - sed -i -e "s#<RESION>#$RESION#g" module/codebuild/taskdef.json
-      - sed -i -e "s#<logging_bucket_arn>#$logging_bucket_arn#g" module/codebuild/taskdef.json
+      - sed -i -e "s#<aws_region>#$aws_region#g" module/codebuild/taskdef.json
+      - sed -i -e "s#<firelens_conf_bucket_arn>#$firelens_conf_bucket_arn#g" module/codebuild/taskdef.json
       - sed -i -e "s#<logging_bucket_name>#$logging_bucket_name#g" module/codebuild/taskdef.json
       - sed -i -e "s#<execution_role_arn>#$execution_role_arn#g" module/codebuild/taskdef.json
       - cp module/codebuild/taskdef.json ./

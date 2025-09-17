@@ -35,6 +35,11 @@ resource "aws_codebuild_project" "project" {
     }
 
     environment_variable {
+      name  = "aws_region"
+      value = var.region
+    }
+
+    environment_variable {
       name  = "REGION"
       value = var.region
     }
@@ -60,8 +65,8 @@ resource "aws_codebuild_project" "project" {
     }
 
     environment_variable {
-      name  = "logging_bucket_arn"
-      value = var.logging_bucket_arn
+      name  = "firelens_conf_bucket_arn"
+      value = var.firelens_conf_bucket_arn
     }
 
     environment_variable {

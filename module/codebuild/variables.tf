@@ -4,7 +4,7 @@ variable "general_config" {
 variable "region" {}
 variable "ecr_repository_url" {}
 variable "ecr_repository_firelens_url" {}
-variable "logging_bucket_arn" {}
+variable "firelens_conf_bucket_arn" {}
 variable "logging_bucket_name" {}
 variable "iam_codebuild_arn" {}
 variable "task_role" {}
