@@ -53,7 +53,7 @@
                 }
             ],
             "logConfiguration": {
-                "logDriver": "awsfirelens",
+                "logDriver": "awslogs",
                 "options": {
                     "awslogs-group": "/ecs/<project>/<env>/firelens",
                     "awslogs-region": "ap-northeast-1",
@@ -61,7 +61,10 @@
                 }
             },
             "mountPoints": [],
-            "volumesFrom": []
+            "volumesFrom": [],
+            "firelensConfiguration": {
+                "type": "fluentbit"
+            }
         }
     ],
     "family": "<project>-<env>-<task_role>-task",
