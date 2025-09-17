@@ -6,3 +6,5 @@ COPY ./nginx/index.html /var/www/html/
 COPY ./nginx/healthchek.html /var/www/html/
 
 EXPOSE 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
