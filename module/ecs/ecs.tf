@@ -34,6 +34,12 @@ resource "aws_ecs_task_definition" "task" {
     "FARGATE"
   ]
 
+  lifecycle {
+    ignore_changes = [
+      container_definitions
+    ]
+  }
+
 }
 
 ##Service
@@ -62,4 +68,12 @@ resource "aws_ecs_service" "service" {
   deployment_controller {
     type = "CODE_DEPLOY"
   }
+
+  lifecycle {
+    ignore_changes = [
+      task_definition
+    ]
+  }
+
 }
+

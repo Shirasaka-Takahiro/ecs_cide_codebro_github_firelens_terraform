@@ -7,6 +7,7 @@ phases:
       - AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
       - REGION=${REGION}
       - ECR_REPOSITORY_URL=${ECR_REPOSITORY_URL}
+      - ECR_REPOSITORY_FIRELENS_URL=${$ECR_REPOSITORY_FIRELENS_URL}
       # コミットハッシュの先頭7桁をタグに利用する
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -20,7 +21,7 @@ phases:
       - docker build ./web -t $ECR_REPOSITORY_URL:latest
       - docker tag $ECR_REPOSITORY_URL:latest $ECR_REPOSITORY_URL:$IMAGE_TAG
       - echo Building Firelens Docker image...
-      - docker build ./Firelens -t $ECR_REPOSITORY_FIRELENS_URL:latest
+      - docker build ./fluentbit -t $ECR_REPOSITORY_FIRELENS_URL:latest
       - docker tag $ECR_REPOSITORY_FIRELENS_URL:latest $ECR_REPOSITORY_FIRELENS_URL:$IMAGE_TAG
   post_build:
     commands:
