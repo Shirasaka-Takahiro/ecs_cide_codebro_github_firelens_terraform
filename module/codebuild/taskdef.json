@@ -69,6 +69,7 @@
     ],
     "family": "<project>-<env>-<task_role>-task",
     "executionRoleArn": "<execution_role_arn>",
+    "taskRoleArn": "<execution_role_arn>",
     "networkMode": "awsvpc",
     "revision": 5,
     "volumes": [],
