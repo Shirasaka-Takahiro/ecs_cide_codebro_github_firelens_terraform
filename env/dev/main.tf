@@ -145,7 +145,7 @@ module "ecs" {
   blue_tg_arn                 = module.alb.blue_tg_arn
   ecr_repository_url          = module.ecr.ecr_repository_url
   ecr_repository_firelens_url = module.ecr_firelens.ecr_repository_url
-  logging_bucket_arn          = module.s3_logging_bucket.bucket_arn
+  firelens_conf_bucket_arn    = module.firelens_conf_bucket.bucket_arn
   logging_bucket_name         = module.s3_logging_bucket.bucket_id
   fargate_cpu                 = var.fargate_cpu
   fargate_memory              = var.fargate_memory
@@ -206,7 +206,7 @@ module "codebuild" {
   task_role                   = var.task_role
   execution_role_arn          = module.iam_ecs.iam_role_arn
   logging_bucket_name         = module.s3_logging_bucket.bucket_id
-  logging_bucket_arn          = module.s3_logging_bucket.bucket_arn
+  firelens_conf_bucket_arn    = module.firelens_conf_bucket.bucket_arn
   vpc_id                      = module.network.vpc_id
   dmz_subnet_ids              = module.network.dmz_subnet_ids
   internal_sg_id              = module.internal_sg.security_group_id
