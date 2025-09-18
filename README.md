@@ -38,7 +38,8 @@ S3(Buckets for logging and pipeline)
 6. Re-deploy Codepipeline
 
 ■SetUp
-1. Move to web directory
-2. Run command for pushing Docker image of web following to the ECR Push command
-3. Move to fluentbit directory
-4. Run command for pushing Docker image of fluentbit following to the ECR Push command
+1. Upload extra.conf to the firelens_conf_bucket
+2. Move to web directory
+3. Run command for pushing Docker image of web following to the ECR Push command
+4. Move to fluentbit directory
+5. Run command for pushing Docker image of fluentbit following to the ECR Push command
