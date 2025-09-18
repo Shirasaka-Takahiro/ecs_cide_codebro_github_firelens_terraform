@@ -36,3 +36,9 @@ S3(Buckets for logging and pipeline)
 4. terraform apply
 5. Connect Codepipeline to GitHub on AWS console
 6. Re-deploy Codepipeline
+
+■SetUp
+1. Move to web directory
+2. Run command for pushing Docker image of web following to the ECR Push command
+3. Move to fluentbit directory
+4. Run command for pushing Docker image of fluentbit following to the ECR Push command
